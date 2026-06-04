@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dovilė Luobikienė — Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================
+           FONO NUOTRAUKA: failas "fonas.png" šiame aplanke
+           --overlay-opacity: 0.55 (šviesiau) – 0.72 (tamsiau)
+           --overlay-color: 10,10,12 (šaltas) | 18,12,6 (šiltas)
+           =================================================== */
+        :root {
+            --gold:              #F0C040;
+            --white:             #FFFFFF;
+            --white-70:          rgba(255,255,255,0.72);
+            --white-40:          rgba(255,255,255,0.40);
+            --overlay-color:     10, 10, 12;
+            --overlay-opacity:   0.64;
+            --glass-bg:          rgba(255,255,255,0.07);
+            --glass-bg-hover:    rgba(255,255,255,0.13);
+            --glass-border:      rgba(255,255,255,0.14);
+            --glass-border-gold: rgba(240,192,64,0.45);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            color: var(--white);
+            background: #0a0a0c;
+            overflow-x: hidden;
+        }
+
+        /* ─── BACKGROUND ─── */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: url('fonas.png');
+            background-size: cover;
+            background-position: center 30%;
+            background-attachment: fixed;
+        }
+        .bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(var(--overlay-color), var(--overlay-opacity));
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            padding: 1.2rem 6vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,12,0.25);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            transition: background 0.4s;
+        }
+        nav.scrolled { background: rgba(10,10,12,0.80); }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .nav-logo-img {
+            height: 38px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--white-70);
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: var(--white-70);
+        }
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 64px; left: 0; right: 0;
+            background: rgba(10,10,12,0.97);
+            backdrop-filter: blur(18px);
+            padding: 2rem 6vw;
+            z-index: 190;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--white-70);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .mobile-menu a:hover { color: var(--gold); }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 8vw 4rem;
+        }
+        .hero-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.4rem;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 0.2s;
+        }
+        .hero-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: clamp(3.8rem, 10vw, 9.5rem);
+            line-height: 0.95;
+            color: var(--gold);
+            letter-spacing: 0.08em;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 0.4s;
+        }
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(1.4rem, 3vw, 2.6rem);
+            color: var(--white-70);
+            letter-spacing: 0.04em;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 0.6s;
+        }
+        .hero-bio {
+            max-width: 560px;
+            font-size: clamp(0.88rem, 1.4vw, 1rem);
+            font-weight: 400;
+            color: var(--white-70);
+            line-height: 1.75;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 0.75s;
+        }
+        .hero-bio strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2.8rem;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 0.9s;
+        }
+        .hero-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--white-70);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 0.38rem 0.85rem;
+            background: rgba(255,255,255,0.04);
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.9rem 2.2rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: slideUp 0.9s cubic-bezier(.22,.68,0,1.2) forwards 1.05s;
+        }
+        .hero-cta:hover { background: var(--gold); color: #0a0a0c; }
+        .hero-cta svg { width: 14px; height: 14px; transition: transform 0.3s; }
+        .hero-cta:hover svg { transform: translateY(3px); }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.5s;
+        }
+        .hero-scroll-hint span {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--white-40);
+        }
+        .scroll-bar {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.14), transparent);
+            margin: 0 8vw;
+        }
+
+        /* ─── SECTIONS ─── */
+        section { padding: 6.5rem 8vw; }
+
+        .section-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.7rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(1.8rem, 3.5vw, 2.9rem);
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 3.5rem;
+        }
+
+        /* ─── SERVICES ─── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.3rem;
+        }
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            padding: 2.3rem 2rem 2rem;
+            transition: transform 0.35s, background 0.35s, border-color 0.35s;
+            cursor: default;
+        }
+        .service-card:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-gold);
+            transform: translateY(-5px);
+        }
+        .service-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: rgba(240,192,64,0.18);
+            line-height: 1;
+            margin-bottom: 1rem;
+            transition: color 0.35s;
+        }
+        .service-card:hover .service-num { color: rgba(240,192,64,0.35); }
+        .service-line {
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+            margin-bottom: 1.2rem;
+            transition: width 0.4s;
+        }
+        .service-card:hover .service-line { width: 48px; }
+        .service-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+        .service-desc {
+            font-size: 0.83rem;
+            font-weight: 400;
+            color: var(--white-70);
+            line-height: 1.75;
+        }
+
+        /* ─── FOLDER CARDS ─── */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .folder-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: #111;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.35s, transform 0.4s;
+        }
+        .folder-card:hover {
+            border-color: var(--glass-border-gold);
+            transform: translateY(-7px);
+        }
+        .folder-preview {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+        }
+        .folder-preview-item { overflow: hidden; background: #0a0a0c; }
+        .folder-preview-item img,
+        .folder-preview-item video {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            transition: transform 0.5s ease;
+        }
+        .folder-card:hover .folder-preview-item img,
+        .folder-card:hover .folder-preview-item video { transform: scale(1.07); }
+        .folder-info {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(8,8,10,0.95) 0%, rgba(8,8,10,0.55) 50%, rgba(8,8,10,0.1) 100%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 1.8rem 1.6rem 1.6rem;
+            transition: background 0.35s;
+        }
+        .folder-card:hover .folder-info {
+            background: linear-gradient(to top, rgba(8,8,10,0.98) 0%, rgba(8,8,10,0.7) 55%, rgba(8,8,10,0.2) 100%);
+        }
+        .folder-eyebrow {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 0.5rem;
+        }
+        .folder-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem; font-weight: 700;
+            color: var(--white); line-height: 1.25;
+            margin-bottom: 0.5rem;
+        }
+        .folder-count {
+            font-size: 0.72rem; font-weight: 500;
+            color: var(--white-70); margin-bottom: 1.1rem;
+        }
+        .folder-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(240,192,64,0.35);
+            padding: 0.55rem 1rem;
+            opacity: 0; transform: translateY(6px);
+            transition: opacity 0.3s, transform 0.3s, background 0.25s;
+            width: fit-content;
+        }
+        .folder-card:hover .folder-btn { opacity: 1; transform: translateY(0); }
+        .folder-btn:hover { background: rgba(240,192,64,0.1); }
+
+        /* ─── GALLERY MODAL ─── */
+        .gallery-modal {
+            display: none;
+            position: fixed; inset: 0; z-index: 998;
+            background: rgba(6,6,8,0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+        }
+        .gallery-modal.open { display: flex; }
+        .gallery-header {
+            padding: 1.1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.09);
+            flex-shrink: 0;
+        }
+        .gallery-header-left { display: flex; flex-direction: column; gap: 0.2rem; }
+        .gallery-header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; font-weight: 700; color: var(--white);
+        }
+        .gallery-header-count {
+            font-size: 0.68rem; font-weight: 500;
+            letter-spacing: 0.1em; color: var(--white-40);
+        }
+        .gallery-close {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--white-70); font-size: 1rem;
+            transition: border-color 0.2s, color 0.2s; flex-shrink: 0;
+        }
+        .gallery-close:hover { border-color: var(--gold); color: var(--gold); }
+        .gallery-grid {
+            flex: 1; overflow-y: auto; overflow-x: hidden;
+            padding: 1.5rem 2rem;
+            display: flex; flex-wrap: wrap;
+            gap: 1rem; align-items: flex-start;
+        }
+        .gallery-item {
+            flex: 0 0 auto;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.07);
+            overflow: hidden;
+            transition: border-color 0.25s;
+        }
+        .gallery-item:hover { border-color: var(--glass-border-gold); }
+        .gallery-item img {
+            display: block; max-height: 78vh;
+            width: auto; max-width: 100%;
+            cursor: zoom-in;
+        }
+        .gallery-item video {
+            display: block; max-height: 42vh;
+            width: auto; max-width: 100%;
+            background: #000;
+        }
+
+        /* AI layout — 6 kolonų grid */
+        .gallery-grid.ai-layout {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            align-items: start;
+            width: 100%;
+        }
+        .gallery-grid.ai-layout .gallery-item {
+            overflow: hidden;
+        }
+        .gallery-grid.ai-layout .gallery-item img {
+            width: 100%; height: 38vh;
+            object-fit: cover; display: block;
+        }
+        .gallery-grid.ai-layout .gallery-item video {
+            width: 100%; max-height: 38vh;
+            display: block; background: #000;
+        }
+        .gallery-grid.ai-layout .gallery-item.landscape {
+            grid-column: span 2;
+        }
+        .gallery-grid.ai-layout .gallery-item.landscape video {
+            max-height: 36vh;
+            width: 100%;
+        }
+        .gallery-grid.ai-layout .gallery-item.landscape img {
+            width: 100%;
+            height: 36vh;
+            object-fit: contain;
+            background: #111;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .gallery-grid.ai-layout { grid-template-columns: repeat(3, 1fr); }
+            .gallery-grid.ai-layout .gallery-item.landscape { grid-column: span 1; }
+        }
+
+        /* Grid layout — plakatams */
+        .gallery-grid.masonry {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-auto-rows: 300px;
+            gap: 4px;
+            overflow-x: hidden;
+            width: 100%;
+        }
+        .gallery-grid.masonry .gallery-item {
+            width: 100%;
+            overflow: hidden;
+            height: 100%;
+        }
+        .gallery-grid.masonry .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #111;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .gallery-grid.masonry { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 560px) {
+            .gallery-grid.masonry { grid-template-columns: 1fr; }
+        }
+
+        /* Lightbox (nuotraukų fullscreen) */
+        .lightbox {
+            display: none; position: fixed; inset: 0; z-index: 999;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(6px);
+            align-items: center; justify-content: center; cursor: zoom-out;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox-inner { max-width: 97vw; max-height: 97vh; cursor: default; }
+        .lightbox-inner img { max-width: 97vw; max-height: 95vh; object-fit: contain; display: block; }
+        .lightbox-close {
+            position: fixed; top: 1rem; right: 1.4rem;
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.25);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 1.1rem; cursor: pointer;
+            transition: border-color 0.2s; z-index: 1000;
+        }
+        .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* ─── CONTACT ─── */
+        #kontaktai {
+            display: flex; flex-direction: column;
+            align-items: center; text-align: center;
+        }
+        #kontaktai .section-title { margin-bottom: 2rem; }
+        .contact-sub {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--white-70);
+            max-width: 460px;
+            line-height: 1.75;
+            margin-bottom: 3rem;
+        }
+        .contact-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem 3.5rem;
+            width: 100%; max-width: 500px;
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .contact-link {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.85rem 1.2rem;
+            color: var(--white-70);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            border: 1px solid transparent;
+            transition: all 0.28s;
+        }
+        .contact-link:hover {
+            color: var(--gold);
+            border-color: var(--glass-border-gold);
+            background: rgba(240,192,64,0.05);
+        }
+        .contact-icon { font-size: 1rem; opacity: 0.7; flex-shrink: 0; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            padding: 1.8rem 8vw;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--white-40);
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.35; } 50% { opacity: 1; }
+        }
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .folder-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 760px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            section { padding: 5rem 6vw; }
+            .folder-grid { grid-template-columns: 1fr; }
+            .folder-card { aspect-ratio: 4/3; }
+            .gallery-grid { padding: 1rem; }
+            .gallery-header { padding: 1rem 1.2rem; }
+            .contact-card { padding: 2rem 1.8rem; }
+            footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- GALLERY MODAL -->
+<div class="gallery-modal" id="galleryModal">
+    <div class="gallery-header">
+        <div class="gallery-header-left">
+            <div class="gallery-header-title" id="galleryTitle"></div>
+            <div class="gallery-header-count" id="galleryCount"></div>
+        </div>
+        <div class="gallery-close" onclick="closeGallery()">✕</div>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+</div>
+
+<!-- LIGHTBOX (nuotraukų fullscreen) -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+    <div class="lightbox-inner" id="lightboxInner"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#virsus" class="nav-logo"><img src="logo.png" alt="Dovilė Luobikienė" class="nav-logo-img"></a>
+    <ul class="nav-links">
+        <li><a href="#paslaugos">Paslaugos</a></li>
+        <li><a href="#portfolio">Darbai</a></li>
+        <li><a href="#kontaktai">Kontaktai</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Meniu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#paslaugos" onclick="closeMenu()">Paslaugos</a>
+    <a href="#portfolio" onclick="closeMenu()">Darbai</a>
+    <a href="#kontaktai" onclick="closeMenu()">Kontaktai</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="virsus">
+    <div class="hero-eyebrow">Skaitmeninio dizaino specialistė · Kūrybinės medijos ir Technologijos</div>
+    <h1 class="hero-name">Dovilė</h1>
+    <div class="hero-subtitle">Luobikienė</div>
+    <p class="hero-bio">
+        <strong>Kruopštumas, kokybė ir kliento vertinimas</strong> — tai ne žodžiai, o mano darbo pamatas.
+        Neatsilikdama nuo naujausių technologijų ir tendencijų, kiekvienam projektui atiduodu visą save —
+        nuo pirmos idėjos iki galutinio rezultato. Jūsų sėkmė yra mano darbas.
+    </p>
+    <div class="hero-tags">
+        <span class="hero-tag">Video montavimas</span>
+        <span class="hero-tag">Reels ir Social</span>
+        <span class="hero-tag">AI vizualai</span>
+        <span class="hero-tag">Grafikos dizainas</span>
+        <span class="hero-tag">Web puslapiai</span>
+        <span class="hero-tag">Apps kūrimas</span>
+    </div>
+    <a href="#paslaugos" class="hero-cta">
+        Peržiūrėti darbus
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M7 1v12M1 7l6 6 6-6"/>
+        </svg>
+    </a>
+    <div class="hero-scroll-hint">
+        <div class="scroll-bar"></div>
+        <span>Slinkti</span>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="paslaugos">
+    <div class="reveal">
+        <div class="section-eyebrow">Ką darau</div>
+        <h2 class="section-title">Paslaugos</h2>
+    </div>
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <div class="service-num">01</div>
+            <div class="service-line"></div>
+            <div class="service-title">Video montavimas<br>ir Reels</div>
+            <p class="service-desc">Profesionalus vaizdo įrašų montavimas — reklaminiai video, Instagram ir TikTok reels, korporatyviniai filmukai. Spalvų korekcija, garso takelis, efektai.</p>
+        </div>
+        <div class="service-card reveal">
+            <div class="service-num">02</div>
+            <div class="service-line"></div>
+            <div class="service-title">AI vizualai<br>ir nuotraukos</div>
+            <p class="service-desc">Dirbtinio intelekto generuotos nuotraukos ir video — produktų vizualai, portretai, reklaminiai vizualai. Unikalus, modernus turinys greitai ir efektyviai.</p>
+        </div>
+        <div class="service-card reveal">
+            <div class="service-num">03</div>
+            <div class="service-line"></div>
+            <div class="service-title">Plakatai<br>ir grafikos dizainas</div>
+            <p class="service-desc">Reklaminiai plakatai, skrajutės, vizitinės kortelės, socialinių tinklų grafika. Dizainas, kuris išsiskiria ir traukia dėmesį.</p>
+        </div>
+        <div class="service-card reveal">
+            <div class="service-num">04</div>
+            <div class="service-line"></div>
+            <div class="service-title">Web puslapių<br>kūrimas</div>
+            <p class="service-desc">Modernūs, mobiliai pritaikyti portfolio ir verslo puslapiai. Greiti, stilingi, optimizuoti paieškos sistemoms.</p>
+        </div>
+        <div class="service-card reveal">
+            <div class="service-num">05</div>
+            <div class="service-line"></div>
+            <div class="service-title">Apps<br>kūrimas</div>
+            <p class="service-desc">Mobiliosios ir žiniatinklio aplikacijos — nuo idėjos iki veikiančio produkto. Švarūs sprendimai, naudotojui draugiška patirtis, naujausios technologijos.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+    <div class="reveal">
+        <div class="section-eyebrow">Darbai</div>
+        <h2 class="section-title">Portfolio</h2>
+    </div>
+    <div class="folder-grid">
+        <!-- Aplankas 1: Video -->
+        <div class="folder-card reveal" onclick="openFolder('video')">
+            <div class="folder-preview">
+                <div class="folder-preview-item"><video src="v1.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v4.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v8.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v2.mp4" muted preload="metadata"></video></div>
+            </div>
+            <div class="folder-info">
+                <div class="folder-eyebrow">Portfolio</div>
+                <div class="folder-title">Video montavimas ir Reels</div>
+                <div class="folder-count">10 video darbų</div>
+                <div class="folder-btn">Atidaryti →</div>
+            </div>
+        </div>
+        <!-- Aplankas 2: AI -->
+        <div class="folder-card reveal" onclick="openFolder('ai')">
+            <div class="folder-preview">
+                <div class="folder-preview-item"><img src="ai1.png" alt=""></div>
+                <div class="folder-preview-item"><img src="ai2.png" alt=""></div>
+                <div class="folder-preview-item"><img src="ai3.png" alt=""></div>
+                <div class="folder-preview-item"><video src="ai-video1.mp4" muted preload="metadata"></video></div>
+            </div>
+            <div class="folder-info">
+                <div class="folder-eyebrow">Portfolio</div>
+                <div class="folder-title">AI vizualai ir nuotraukos</div>
+                <div class="folder-count">4 nuotraukos · 5 video</div>
+                <div class="folder-btn">Atidaryti →</div>
+            </div>
+        </div>
+        <!-- Aplankas 3: Plakatai -->
+        <div class="folder-card reveal" onclick="openFolder('plakatai')">
+            <div class="folder-preview">
+                <div class="folder-preview-item"><img src="plakat3.png" alt=""></div>
+                <div class="folder-preview-item"><img src="plakat5.png" alt=""></div>
+                <div class="folder-preview-item"><img src="plakat7.png" alt=""></div>
+                <div class="folder-preview-item"><img src="plakat10.png" alt=""></div>
+            </div>
+            <div class="folder-info">
+                <div class="folder-eyebrow">Portfolio</div>
+                <div class="folder-title">Plakatai ir grafikos dizainas</div>
+                <div class="folder-count">10 dizaino darbų</div>
+                <div class="folder-btn">Atidaryti →</div>
+            </div>
+        </div>
+        <!-- Aplankas 4: Web puslapiai -->
+        <div class="folder-card reveal" onclick="openFolder('web')">
+            <div class="folder-preview">
+                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><video src="nagu_salonas.mp4" muted preload="metadata"></video></div>
+            </div>
+            <div class="folder-info">
+                <div class="folder-eyebrow">Portfolio</div>
+                <div class="folder-title">Web puslapių kūrimas</div>
+                <div class="folder-count">1 video darbas</div>
+                <div class="folder-btn">Atidaryti →</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="kontaktai">
+    <div class="reveal">
+        <div class="section-eyebrow">Susisiekime</div>
+        <h2 class="section-title">Kontaktai</h2>
+    </div>
+    <p class="contact-sub reveal">Turite idėją? Aptarkime — sukursime kažką, kuo didžiuositės.</p>
+    <div class="contact-card reveal">
+        <a href="https://wa.me/37066302755" target="_blank" class="contact-link">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;opacity:0.75;flex-shrink:0">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L.057 23.882a.5.5 0 0 0 .607.61l6.204-1.62A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.387l-.363-.215-3.761.984.999-3.671-.236-.374A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+            +370 663 02755
+        </a>
+        <a href="mailto:d.luobikiene@gmail.com" class="contact-link">
+            <span class="contact-icon">✉</span>
+            d.luobikiene@gmail.com
+        </a>
+        <a href="https://instagram.com/dovile_luobikiene" target="_blank" class="contact-link">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;opacity:0.75;flex-shrink:0">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4.5"/>
+                <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+            @dovile_luobikiene
+        </a>
+    </div>
+</section>
+
+<footer>
+    <span>© 2026 Dovilė Luobikienė</span>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const delay = parseInt(entry.target.dataset.delay || 0);
+                setTimeout(() => entry.target.classList.add('in'), delay);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+        el.dataset.delay = (i % 5) * 110;
+        observer.observe(el);
+    });
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+    function closeMenu()  { document.getElementById('mobileMenu').classList.remove('open'); }
+
+    // ─── FOLDER / GALLERY ───
+    const folderData = {
+        video: {
+            title: 'Video montavimas ir Reels',
+            items: [
+                {type:'video', src:'v1.mp4'},
+                {type:'video', src:'v2.mp4'},
+                {type:'video', src:'v3.mp4'},
+                {type:'video', src:'v4.mp4'},
+                {type:'video', src:'v5.mp4'},
+                {type:'video', src:'v6.mp4'},
+                {type:'video', src:'v7.mp4'},
+                {type:'video', src:'v8.mp4'},
+                {type:'video', src:'v9.mp4'},
+                {type:'video', src:'venera.mp4'},
+            ]
+        },
+        ai: {
+            title: 'AI vizualai ir nuotraukos',
+            items: [
+                {type:'img',   src:'ai1.png'},
+                {type:'img',   src:'ai2.png'},
+                {type:'img',   src:'ai3.png'},
+                {type:'img',   src:'ai4.png'},
+                {type:'video', src:'ai-video1.mp4'},
+                {type:'video', src:'ai-video3.mp4'},
+                {type:'video', src:'motociklas.mp4', landscape:true},
+                {type:'video', src:'retro-cola.mp4', landscape:true},
+                {type:'video', src:'ai-video2.mp4',  landscape:true},
+            ]
+        },
+        web: {
+            title: 'Web puslapių kūrimas',
+            items: [
+                {type:'video', src:'nagu_salonas.mp4'},
+            ]
+        },
+        plakatai: {
+            title: 'Plakatai ir grafikos dizainas',
+            items: [
+                {type:'img', src:'plakat1.jpg'},
+                {type:'img', src:'plakat2.jpg'},
+                {type:'img', src:'plakat3.png'},
+                {type:'img', src:'plakat4.png'},
+                {type:'img', src:'plakat5.png'},
+                {type:'img', src:'plakat6.png'},
+                {type:'img', src:'plakat7.png'},
+                {type:'img', src:'plakat8.png'},
+                {type:'img', src:'plakat9.jpeg'},
+                {type:'img', src:'plakat10.png'},
+            ]
+        }
+    };
+
+    function openFolder(id) {
+        const data = folderData[id];
+        if (!data) return;
+        document.getElementById('galleryTitle').textContent = data.title;
+        document.getElementById('galleryCount').textContent = data.items.length ? data.items.length + ' darbai' : 'Jau greitai...';
+        const grid = document.getElementById('galleryGrid');
+        grid.innerHTML = '';
+        if (id === 'plakatai') grid.className = 'gallery-grid masonry';
+        else if (id === 'ai') grid.className = 'gallery-grid ai-layout';
+        else grid.className = 'gallery-grid';
+        data.items.forEach(item => {
+            const wrap = document.createElement('div');
+            wrap.className = 'gallery-item' + (item.landscape ? ' landscape' : '');
+            if (item.type === 'img') {
+                const img = document.createElement('img');
+                img.src = item.src;
+                img.loading = 'lazy';
+                img.onclick = () => openLightboxImg(item.src);
+                wrap.appendChild(img);
+            } else {
+                const vid = document.createElement('video');
+                vid.src = item.src;
+                vid.controls = true;
+                vid.preload = 'metadata';
+                vid.setAttribute('playsinline', '');
+                wrap.appendChild(vid);
+            }
+            grid.appendChild(wrap);
+        });
+        document.getElementById('galleryModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeGallery() {
+        const modal = document.getElementById('galleryModal');
+        modal.querySelectorAll('video').forEach(v => v.pause());
+        modal.classList.remove('open');
+        document.getElementById('galleryGrid').innerHTML = '';
+        document.body.style.overflow = '';
+    }
+
+    // Lightbox (nuotraukų fullscreen iš galerijos)
+    function openLightboxImg(src) {
+        const lb = document.getElementById('lightbox');
+        document.getElementById('lightboxInner').innerHTML = '<img src="' + src + '" alt="">';
+        lb.classList.add('open');
+    }
+    function closeLightbox(e) {
+        if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+        document.getElementById('lightbox').classList.remove('open');
+        document.getElementById('lightboxInner').innerHTML = '';
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeGallery();
+            closeLightbox({ target: document.getElementById('lightbox') });
+        }
+    });
+</script>
+</body>
+</html>
