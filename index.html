@@ -1056,6 +1056,13 @@
                 vid.muted = true;
                 vid.preload = 'metadata';
                 vid.setAttribute('playsinline', '');
+                if (id === 'video') {
+                    const cols = window.innerWidth <= 480 ? 2 : window.innerWidth <= 900 ? 3 : 6;
+                    const cellW = window.innerWidth / cols;
+                    vid.style.width = '100%';
+                    vid.style.height = Math.round(cellW * 16 / 9) + 'px';
+                    vid.style.objectFit = 'cover';
+                }
                 const playIcon = document.createElement('div');
                 playIcon.className = 'video-play-icon';
                 wrap.appendChild(vid);
