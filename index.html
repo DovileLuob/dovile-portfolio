@@ -534,8 +534,14 @@
         }
         @media (max-width: 480px) {
             .gallery-grid.ai-layout { grid-template-columns: repeat(2, 1fr); }
-            .gallery-grid.ai-layout .gallery-item video { height: 32vh; }
             .gallery-grid.ai-layout .gallery-item img { height: 32vh; }
+            .video-play-icon { width: 28px; height: 28px; }
+            .video-play-icon::after {
+                border-top-width: 5px;
+                border-bottom-width: 5px;
+                border-left-width: 9px;
+                margin-left: 3px;
+            }
         }
 
         /* Web folder — video centruotas per visą modalą */
