@@ -554,26 +554,38 @@
             }
         }
 
-        /* Web folder — video centruotas per visą modalą */
+        /* Web folder — desktop: viršuje kairėje; mobilė: centruotas */
         .gallery-grid.web-layout {
             display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
             width: 100%;
             padding: 2rem;
-            overflow: hidden;
+            overflow: auto;
         }
         .gallery-grid.web-layout .gallery-item {
-            width: 420px;
+            width: 480px;
             max-width: calc(100vw - 4rem);
-            margin: 0 auto;
             flex-shrink: 0;
         }
         .gallery-grid.web-layout .gallery-item video {
             width: 100%;
             height: auto;
-            max-height: 65vh;
+            max-height: 70vh;
             display: block;
+        }
+        @media (max-width: 760px) {
+            .gallery-grid.web-layout {
+                justify-content: center !important;
+                align-items: center !important;
+            }
+            .gallery-grid.web-layout .gallery-item {
+                width: 100%;
+                max-width: 100%;
+            }
+            .gallery-grid.web-layout .gallery-item video {
+                max-height: 60vh;
+            }
         }
 
         /* Grid layout — plakatams */
