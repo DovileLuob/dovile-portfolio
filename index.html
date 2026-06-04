@@ -448,10 +448,12 @@
         }
         .gallery-item {
             flex: 0 0 auto;
+            position: relative;
             background: #000;
             border: 1px solid rgba(255,255,255,0.07);
             overflow: hidden;
             transition: border-color 0.25s;
+            cursor: pointer;
         }
         .gallery-item:hover { border-color: var(--glass-border-gold); }
         .gallery-item img {
@@ -463,6 +465,33 @@
             display: block; max-height: 42vh;
             width: auto; max-width: 100%;
             background: #000;
+        }
+        .video-play-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 42px; height: 42px;
+            background: rgba(0,0,0,0.52);
+            border: 1.5px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .video-play-icon::after {
+            content: '';
+            display: block;
+            width: 0; height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 13px solid rgba(255,255,255,0.92);
+            margin-left: 4px;
+        }
+        .gallery-item:hover .video-play-icon {
+            background: rgba(240,192,64,0.25);
+            border-color: var(--gold);
+        }
+        .gallery-item:hover .video-play-icon::after {
+            border-left-color: var(--gold);
         }
 
         /* AI layout — 6 kolonų grid */
@@ -510,14 +539,22 @@
             .gallery-grid.ai-layout .gallery-item img { height: 32vh; }
         }
 
-        /* Web folder — video centruotas, mažesnis */
+        /* Web folder — video centruotas per visą modalą */
         .gallery-grid.web-layout {
+            display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .gallery-grid.web-layout .gallery-item {
+            width: min(420px, 88vw);
         }
         .gallery-grid.web-layout .gallery-item video {
-            max-height: 30vh;
-            max-width: 70%;
+            width: 100%;
+            height: auto;
+            max-height: 62vh;
+            display: block;
         }
 
         /* Grid layout — plakatams */
@@ -970,10 +1007,14 @@
             } else {
                 const vid = document.createElement('video');
                 vid.src = item.src;
-                vid.controls = true;
+                vid.muted = true;
                 vid.preload = 'metadata';
                 vid.setAttribute('playsinline', '');
+                const playIcon = document.createElement('div');
+                playIcon.className = 'video-play-icon';
                 wrap.appendChild(vid);
+                wrap.appendChild(playIcon);
+                wrap.onclick = () => openLightboxVideo(item.src);
             }
             grid.appendChild(wrap);
         });
@@ -989,16 +1030,25 @@
         document.body.style.overflow = '';
     }
 
-    // Lightbox (nuotraukų fullscreen iš galerijos)
+    // Lightbox (nuotraukų ir video fullscreen iš galerijos)
     function openLightboxImg(src) {
         const lb = document.getElementById('lightbox');
         document.getElementById('lightboxInner').innerHTML = '<img src="' + src + '" alt="">';
         lb.classList.add('open');
     }
+    function openLightboxVideo(src) {
+        const lb = document.getElementById('lightbox');
+        document.getElementById('lightboxInner').innerHTML =
+            '<video src="' + src + '" controls autoplay playsinline style="max-width:92vw;max-height:88vh;display:block;background:#000;"></video>';
+        lb.classList.add('open');
+    }
     function closeLightbox(e) {
         if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+        const inner = document.getElementById('lightboxInner');
+        const vid = inner.querySelector('video');
+        if (vid) vid.pause();
         document.getElementById('lightbox').classList.remove('open');
-        document.getElementById('lightboxInner').innerHTML = '';
+        inner.innerHTML = '';
     }
 
     document.addEventListener('keydown', e => {
