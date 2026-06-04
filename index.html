@@ -938,7 +938,7 @@
         const grid = document.getElementById('galleryGrid');
         grid.innerHTML = '';
         if (id === 'plakatai') grid.className = 'gallery-grid masonry';
-        else if (id === 'ai') grid.className = 'gallery-grid ai-layout';
+        else if (id === 'ai' || id === 'video') grid.className = 'gallery-grid ai-layout';
         else grid.className = 'gallery-grid';
         data.items.forEach(item => {
             const wrap = document.createElement('div');
