@@ -144,7 +144,7 @@
             padding: 100px 8vw 4rem;
         }
         .hero-eyebrow {
-            font-size: 0.68rem;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
             font-weight: 700;
             letter-spacing: 0.32em;
             text-transform: uppercase;
@@ -520,10 +520,11 @@
         .gallery-grid.video-grid .gallery-item {
             overflow: hidden;
             background: #000;
+            aspect-ratio: 9/16;
         }
         .gallery-grid.video-grid .gallery-item video {
             width: 100%;
-            height: calc((100vw / 6) * 1.778);
+            height: 100%;
             object-fit: cover;
             display: block; background: #000;
         }
@@ -545,9 +546,6 @@
         @media (max-width: 900px) {
             .gallery-grid.ai-layout { grid-template-columns: repeat(3, 1fr); }
             .gallery-grid.ai-layout .gallery-item.landscape { grid-column: span 1; }
-            .gallery-grid.video-grid .gallery-item video {
-                height: calc((100vw / 3) * 1.778);
-            }
         }
         @media (max-width: 480px) {
             .gallery-grid.ai-layout { grid-template-columns: repeat(2, 1fr); }
@@ -555,9 +553,6 @@
                 grid-template-columns: 1fr 1fr;
                 padding: 0.5rem;
                 gap: 6px;
-            }
-            .gallery-grid.video-grid .gallery-item video {
-                height: calc((100vw / 2) * 1.778);
             }
             .video-play-icon { width: 28px; height: 28px; }
             .video-play-icon::after {
@@ -727,11 +722,16 @@
             .hamburger { display: flex; }
             section { padding: 5rem 6vw; }
             .folder-grid { grid-template-columns: 1fr; }
-            .folder-card { aspect-ratio: 4/3; }
+            .folder-card { aspect-ratio: 3/4; }
             .gallery-grid { padding: 1rem; }
             .gallery-header { padding: 1rem 1.2rem; }
             .contact-card { padding: 2rem 1.8rem; }
             footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .hero-tags {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -859,10 +859,10 @@
         <!-- Aplankas 1: Video -->
         <div class="folder-card reveal" onclick="openFolder('video')">
             <div class="folder-preview">
-                <div class="folder-preview-item"><video src="v1.mp4" muted preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v4.mp4" muted preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v8.mp4" muted preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v2.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v1.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v4.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v8.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="v2.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
@@ -877,7 +877,7 @@
                 <div class="folder-preview-item"><img src="ai1.png" alt=""></div>
                 <div class="folder-preview-item"><img src="ai2.png" alt=""></div>
                 <div class="folder-preview-item"><img src="ai3.png" alt=""></div>
-                <div class="folder-preview-item"><video src="ai-video1.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item"><video src="ai-video1.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
@@ -904,7 +904,7 @@
         <!-- Aplankas 4: Web puslapiai -->
         <div class="folder-card reveal" onclick="openFolder('web')">
             <div class="folder-preview">
-                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><video src="nagu_salonas.mp4" muted preload="metadata"></video></div>
+                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><video src="nagu_salonas.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
@@ -1029,6 +1029,10 @@
         }
     };
 
+    function getPreviewVideoSrc(src) {
+        return src.includes('#t=') ? src : src + '#t=0.1';
+    }
+
     function openFolder(id) {
         const data = folderData[id];
         if (!data) return;
@@ -1052,17 +1056,10 @@
                 wrap.appendChild(img);
             } else {
                 const vid = document.createElement('video');
-                vid.src = item.src;
+                vid.src = getPreviewVideoSrc(item.src);
                 vid.muted = true;
                 vid.preload = 'metadata';
                 vid.setAttribute('playsinline', '');
-                if (id === 'video') {
-                    const cols = window.innerWidth <= 480 ? 2 : window.innerWidth <= 900 ? 3 : 6;
-                    const cellW = window.innerWidth / cols;
-                    vid.style.width = '100%';
-                    vid.style.height = Math.round(cellW * 16 / 9) + 'px';
-                    vid.style.objectFit = 'cover';
-                }
                 const playIcon = document.createElement('div');
                 playIcon.className = 'video-play-icon';
                 wrap.appendChild(vid);
