@@ -548,18 +548,18 @@
             .gallery-grid.ai-layout .gallery-item.landscape { grid-column: span 1; }
         }
         @media (max-width: 480px) {
-            .gallery-grid.ai-layout { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid.ai-layout { grid-template-columns: 1fr; }
             .gallery-grid.video-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 padding: 0.5rem;
-                gap: 6px;
+                gap: 12px;
             }
-            .video-play-icon { width: 28px; height: 28px; }
+            .video-play-icon { width: 36px; height: 36px; }
             .video-play-icon::after {
-                border-top-width: 5px;
-                border-bottom-width: 5px;
-                border-left-width: 9px;
-                margin-left: 3px;
+                border-top-width: 6px;
+                border-bottom-width: 6px;
+                border-left-width: 11px;
+                margin-left: 3.5px;
             }
         }
 
