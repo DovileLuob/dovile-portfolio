@@ -636,20 +636,38 @@
                 margin-bottom: 16px !important;
                 background: #050505 !important;
                 overflow: hidden !important;
-                min-height: unset !important;
-                max-height: unset !important;
-                aspect-ratio: unset !important;
-                height: auto !important;
                 border-radius: 8px !important;
+                height: auto !important;
+            }
+
+            /* Prevent 0px height collapse for video thumbnails on mobile Safari */
+            .gallery-grid.video-grid .gallery-item {
+                aspect-ratio: 9 / 16 !important;
+            }
+            .gallery-grid.ai-layout .gallery-item {
+                aspect-ratio: 9 / 16 !important;
+            }
+            .gallery-grid.ai-layout .gallery-item.landscape {
+                aspect-ratio: 16 / 9 !important;
+            }
+            .gallery-grid.web-layout .gallery-item {
+                aspect-ratio: 16 / 9 !important;
+            }
+            .gallery-grid.masonry .gallery-item {
+                aspect-ratio: unset !important; /* Keep natural height for image posters */
             }
 
             .gallery-grid .gallery-item img,
             .gallery-grid .gallery-item video {
                 width: 100% !important;
-                height: auto !important;
+                height: 100% !important;
                 object-fit: contain !important;
                 display: block !important;
                 border-radius: 8px !important;
+            }
+
+            .gallery-grid.web-layout .gallery-item video {
+                height: auto !important;
             }
 
             .gallery-grid.web-layout {
@@ -926,7 +944,7 @@
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
                 <div class="folder-title">AI vizualai ir nuotraukos</div>
-                <div class="folder-count">4 nuotraukos · 6 video</div>
+                <div class="folder-count">4 nuotraukos · 5 video</div>
                 <div class="folder-btn">Atidaryti →</div>
             </div>
         </div>
@@ -1017,7 +1035,11 @@
     });
 
     function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
-    function closeMenu()  { document.getElementById('mobileMenu').classList.remove('open'); }
+    function closeMenu()  {
+        setTimeout(() => {
+            document.getElementById('mobileMenu').classList.remove('open');
+        }, 120);
+    }
 
     // ─── FOLDER / GALLERY ───
     const folderData = {
@@ -1048,7 +1070,6 @@
                 {type:'video', src:'motociklas.mp4', landscape:true},
                 {type:'video', src:'retro-cola.mp4', landscape:true},
                 {type:'video', src:'ai-video2.mp4',  landscape:true},
-                {type:'video', src:'ai-video4.mp4',  landscape:true},
             ]
         },
         web: {
