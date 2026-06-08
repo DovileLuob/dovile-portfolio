@@ -388,11 +388,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.15rem; font-weight: 700;
             color: var(--white); line-height: 1.25;
-            margin-bottom: 0.5rem;
-        }
-        .folder-count {
-            font-size: 0.72rem; font-weight: 500;
-            color: var(--white-70); margin-bottom: 1.1rem;
+            margin-bottom: 1.1rem;
         }
         .folder-btn {
             display: inline-flex; align-items: center; gap: 0.5rem;
@@ -530,7 +526,8 @@
             background: #000;
             aspect-ratio: 9/16;
         }
-        .gallery-grid.video-grid .gallery-item video {
+        .gallery-grid.video-grid .gallery-item video,
+        .gallery-grid.video-grid .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -571,7 +568,8 @@
             max-width: calc(100vw - 4rem);
             flex-shrink: 0;
         }
-        .gallery-grid.web-layout .gallery-item video {
+        .gallery-grid.web-layout .gallery-item video,
+        .gallery-grid.web-layout .gallery-item img {
             width: 100%;
             height: auto;
             max-height: 70vh;
@@ -806,7 +804,6 @@
     <div class="gallery-header">
         <div class="gallery-header-left">
             <div class="gallery-header-title" id="galleryTitle"></div>
-            <div class="gallery-header-count" id="galleryCount"></div>
         </div>
         <div class="gallery-close" onclick="closeGallery()">✕</div>
     </div>
@@ -921,15 +918,14 @@
         <!-- Aplankas 1: Video -->
         <div class="folder-card reveal" onclick="openFolder('video')">
             <div class="folder-preview">
-                <div class="folder-preview-item"><video src="v1.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v4.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v8.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
-                <div class="folder-preview-item"><video src="v2.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item"><img src="posters/v1.jpg" alt="" loading="lazy"></div>
+                <div class="folder-preview-item"><img src="posters/v4.jpg" alt="" loading="lazy"></div>
+                <div class="folder-preview-item"><img src="posters/v8.jpg" alt="" loading="lazy"></div>
+                <div class="folder-preview-item"><img src="posters/v2.jpg" alt="" loading="lazy"></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
                 <div class="folder-title">Video montavimas ir Reels</div>
-                <div class="folder-count">10 video darbų</div>
                 <div class="folder-btn">Atidaryti →</div>
             </div>
         </div>
@@ -939,12 +935,11 @@
                 <div class="folder-preview-item"><img src="ai1.png" alt=""></div>
                 <div class="folder-preview-item"><img src="ai2.png" alt=""></div>
                 <div class="folder-preview-item"><img src="ai3.png" alt=""></div>
-                <div class="folder-preview-item"><video src="ai-video1.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item"><img src="posters/ai-video1.jpg" alt="" loading="lazy"></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
                 <div class="folder-title">AI vizualai ir nuotraukos</div>
-                <div class="folder-count">4 nuotraukos · 5 video</div>
                 <div class="folder-btn">Atidaryti →</div>
             </div>
         </div>
@@ -959,19 +954,17 @@
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
                 <div class="folder-title">Plakatai ir grafikos dizainas</div>
-                <div class="folder-count">10 dizaino darbų</div>
                 <div class="folder-btn">Atidaryti →</div>
             </div>
         </div>
         <!-- Aplankas 4: Web puslapiai -->
         <div class="folder-card reveal" onclick="openFolder('web')">
             <div class="folder-preview">
-                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><video src="nagu_salonas.mp4#t=0.1" muted playsinline preload="metadata"></video></div>
+                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><img src="posters/nagu_salonas.jpg" alt="" loading="lazy"></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
                 <div class="folder-title">Web puslapių kūrimas</div>
-                <div class="folder-count">1 video darbas</div>
                 <div class="folder-btn">Atidaryti →</div>
             </div>
         </div>
@@ -1070,6 +1063,7 @@
                 {type:'video', src:'motociklas.mp4', landscape:true},
                 {type:'video', src:'retro-cola.mp4', landscape:true},
                 {type:'video', src:'ai-video2.mp4',  landscape:true},
+                {type:'video', src:'ai-video4.mp4',  landscape:true},
             ]
         },
         web: {
@@ -1103,7 +1097,6 @@
         const data = folderData[id];
         if (!data) return;
         document.getElementById('galleryTitle').textContent = data.title;
-        document.getElementById('galleryCount').textContent = data.items.length ? data.items.length + ' darbai' : 'Jau greitai...';
         const grid = document.getElementById('galleryGrid');
         grid.innerHTML = '';
         if (id === 'plakatai') grid.className = 'gallery-grid masonry';
@@ -1121,14 +1114,12 @@
                 img.onclick = () => openLightboxImg(item.src);
                 wrap.appendChild(img);
             } else {
-                const vid = document.createElement('video');
-                vid.src = getPreviewVideoSrc(item.src);
-                vid.muted = true;
-                vid.preload = 'metadata';
-                vid.setAttribute('playsinline', '');
+                const img = document.createElement('img');
+                img.src = 'posters/' + item.src.replace('.mp4', '.jpg');
+                img.loading = 'lazy';
                 const playIcon = document.createElement('div');
                 playIcon.className = 'video-play-icon';
-                wrap.appendChild(vid);
+                wrap.appendChild(img);
                 wrap.appendChild(playIcon);
                 wrap.onclick = () => openLightboxVideo(item.src);
             }
