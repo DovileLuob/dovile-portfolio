@@ -575,6 +575,40 @@
             max-height: 70vh;
             display: block;
         }
+        .web-item-caption {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--white-70);
+            margin-top: 0.7rem;
+            line-height: 1.6;
+        }
+        .web-item-link {
+            display: inline-block;
+            margin-top: 0.3rem;
+            color: var(--gold);
+            border: 1px solid var(--glass-border-gold);
+            border-radius: 100px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .web-item-link:hover { background: rgba(240,192,64,0.1); }
+        .lightbox-live-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--gold);
+            border: 1px solid var(--glass-border-gold);
+            border-radius: 100px;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .lightbox-live-link:hover { background: rgba(240,192,64,0.1); }
         @media (max-width: 760px) {
             .gallery-grid.web-layout {
                 justify-content: center !important;
@@ -960,7 +994,8 @@
         <!-- Aplankas 4: Web puslapiai -->
         <div class="folder-card reveal" onclick="openFolder('web')">
             <div class="folder-preview">
-                <div class="folder-preview-item" style="grid-column:span 2; grid-row:span 2;"><img src="posters/nagu_salonas.jpg" alt="" loading="lazy"></div>
+                <div class="folder-preview-item" style="grid-column:span 2;"><img src="posters/nagu_salonas.jpg" alt="" loading="lazy"></div>
+                <div class="folder-preview-item" style="grid-column:span 2;"><img src="posters/vakaro_stalas.jpg" alt="" loading="lazy"></div>
             </div>
             <div class="folder-info">
                 <div class="folder-eyebrow">Portfolio</div>
@@ -1069,7 +1104,8 @@
         web: {
             title: 'Web puslapių kūrimas',
             items: [
-                {type:'video', src:'nagu_salonas.mp4'},
+                {type:'video', src:'nagu_salonas.mp4', name:'Nagų salonas'},
+                {type:'video', src:'vakaro_stalas.mp4', name:'Restoranas · Vakaro Stalas', url:'https://restoranasvakarostalas.netlify.app/'},
             ]
         },
         plakatai: {
@@ -1122,7 +1158,24 @@
                 playIcon.className = 'video-play-icon';
                 wrap.appendChild(img);
                 wrap.appendChild(playIcon);
-                wrap.onclick = () => openLightboxVideo(item.src);
+                wrap.onclick = () => openLightboxVideo(item.src, item.url);
+                if (item.name) {
+                    const cap = document.createElement('div');
+                    cap.className = 'web-item-caption';
+                    cap.textContent = item.name;
+                    if (item.url) {
+                        cap.appendChild(document.createElement('br'));
+                        const link = document.createElement('a');
+                        link.href = item.url;
+                        link.target = '_blank';
+                        link.rel = 'noopener';
+                        link.className = 'web-item-link';
+                        link.textContent = 'Peržiūrėti gyvai ↗';
+                        link.onclick = (e) => e.stopPropagation();
+                        cap.appendChild(link);
+                    }
+                    wrap.appendChild(cap);
+                }
             }
             grid.appendChild(wrap);
         });
@@ -1144,10 +1197,13 @@
         document.getElementById('lightboxInner').innerHTML = '<img src="' + src + '" alt="">';
         lb.classList.add('open');
     }
-    function openLightboxVideo(src) {
+    function openLightboxVideo(src, url) {
         const lb = document.getElementById('lightbox');
-        document.getElementById('lightboxInner').innerHTML =
-            '<video src="' + src + '" controls autoplay playsinline style="max-width:92vw;max-height:88vh;display:block;background:#000;"></video>';
+        let html = '<video src="' + src + '" controls autoplay playsinline style="max-width:92vw;max-height:82vh;display:block;background:#000;"></video>';
+        if (url) {
+            html += '<a href="' + url + '" target="_blank" rel="noopener" class="lightbox-live-link">Peržiūrėti gyvai ↗</a>';
+        }
+        document.getElementById('lightboxInner').innerHTML = html;
         lb.classList.add('open');
     }
     function closeLightbox(e) {
