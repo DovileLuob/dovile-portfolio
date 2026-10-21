@@ -144,9 +144,10 @@
             padding: 100px 8vw 4rem;
         }
         .hero-eyebrow {
-            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            font-size: clamp(1.05rem, 2vw, 1.65rem);
             font-weight: 700;
-            letter-spacing: 0.32em;
+            line-height: 1.35;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--gold);
             margin-bottom: 1.4rem;
@@ -156,7 +157,7 @@
         .hero-name {
             font-family: 'Cinzel', serif;
             font-weight: 600;
-            font-size: clamp(3.8rem, 10vw, 9.5rem);
+            font-size: clamp(3.2rem, 7.5vw, 7rem);
             line-height: 0.95;
             color: var(--gold);
             letter-spacing: 0.08em;
@@ -205,7 +206,11 @@
             border: 1px solid rgba(255,255,255,0.18);
             padding: 0.38rem 0.85rem;
             background: rgba(255,255,255,0.04);
+            font-family: inherit;
+            cursor: pointer;
+            transition: color 0.25s, border-color 0.25s, background 0.25s;
         }
+        .hero-tag:hover, .hero-tag:focus-visible { color: #0a0a0c; background: var(--gold); border-color: var(--gold); outline: none; }
         .hero-cta {
             display: inline-flex;
             align-items: center;
@@ -292,8 +297,22 @@
             border: 1px solid var(--glass-border);
             padding: 2.3rem 2rem 2rem;
             transition: transform 0.35s, background 0.35s, border-color 0.35s;
-            cursor: default;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
+        .service-more {
+            margin-top: auto;
+            padding-top: 1.2rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.75;
+            transition: opacity 0.3s;
+        }
+        .service-card:hover .service-more { opacity: 1; }
         .service-card:hover {
             background: var(--glass-bg-hover);
             border-color: var(--glass-border-gold);
@@ -879,12 +898,12 @@
         nuo pirmos idėjos iki galutinio rezultato. Jūsų sėkmė yra mano darbas.
     </p>
     <div class="hero-tags">
-        <span class="hero-tag">Video montavimas</span>
-        <span class="hero-tag">Reels ir Social</span>
-        <span class="hero-tag">AI vizualai</span>
-        <span class="hero-tag">Grafikos dizainas</span>
-        <span class="hero-tag">Web puslapiai</span>
-        <span class="hero-tag">Apps kūrimas</span>
+        <button type="button" class="hero-tag" onclick="openFolder('video')">Video montavimas</button>
+        <button type="button" class="hero-tag" onclick="openFolder('video')">Reels ir Social</button>
+        <button type="button" class="hero-tag" onclick="openFolder('ai')">AI vizualai</button>
+        <button type="button" class="hero-tag" onclick="openFolder('plakatai')">Grafikos dizainas</button>
+        <button type="button" class="hero-tag" onclick="openFolder('web')">Web puslapiai</button>
+        <button type="button" class="hero-tag" onclick="openFolder('web')">Apps kūrimas</button>
     </div>
     <a href="#paslaugos" class="hero-cta">
         Peržiūrėti darbus
@@ -907,35 +926,40 @@
         <h2 class="section-title">Paslaugos</h2>
     </div>
     <div class="services-grid">
-        <div class="service-card reveal">
+        <div class="service-card reveal" onclick="openFolder('video')">
             <div class="service-num">01</div>
             <div class="service-line"></div>
             <div class="service-title">Video montavimas<br>ir Reels</div>
             <p class="service-desc">Profesionalus vaizdo įrašų montavimas — reklaminiai video, Instagram ir TikTok reels, korporatyviniai filmukai. Spalvų korekcija, garso takelis, efektai.</p>
+            <div class="service-more">Žiūrėti darbus →</div>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" onclick="openFolder('ai')">
             <div class="service-num">02</div>
             <div class="service-line"></div>
             <div class="service-title">AI vizualai<br>ir nuotraukos</div>
             <p class="service-desc">Dirbtinio intelekto generuotos nuotraukos ir video — produktų vizualai, portretai, reklaminiai vizualai. Unikalus, modernus turinys greitai ir efektyviai.</p>
+            <div class="service-more">Žiūrėti darbus →</div>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" onclick="openFolder('plakatai')">
             <div class="service-num">03</div>
             <div class="service-line"></div>
             <div class="service-title">Plakatai<br>ir grafikos dizainas</div>
             <p class="service-desc">Reklaminiai plakatai, skrajutės, vizitinės kortelės, socialinių tinklų grafika. Dizainas, kuris išsiskiria ir traukia dėmesį.</p>
+            <div class="service-more">Žiūrėti darbus →</div>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" onclick="openFolder('web')">
             <div class="service-num">04</div>
             <div class="service-line"></div>
             <div class="service-title">Web puslapių<br>kūrimas</div>
             <p class="service-desc">Modernūs, mobiliai pritaikyti portfolio ir verslo puslapiai. Greiti, stilingi, optimizuoti paieškos sistemoms.</p>
+            <div class="service-more">Žiūrėti darbus →</div>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" onclick="openFolder('web')">
             <div class="service-num">05</div>
             <div class="service-line"></div>
             <div class="service-title">Apps<br>kūrimas</div>
             <p class="service-desc">Mobiliosios ir žiniatinklio aplikacijos — nuo idėjos iki veikiančio produkto. Švarūs sprendimai, naudotojui draugiška patirtis, naujausios technologijos.</p>
+            <div class="service-more">Žiūrėti darbus →</div>
         </div>
     </div>
 </section>
